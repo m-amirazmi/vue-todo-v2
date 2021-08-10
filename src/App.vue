@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid row">
+  <div class="container-fluid row ps-md-0">
     <aside class="sidebar-container col-md-2">
       <div class="sidebar">
         <div class="links">
@@ -37,7 +37,7 @@
             </router-link>
           </div>
         </div>
-      <div class="">
+      <div class="category-container">
           <router-view/>
         </div>
       </div>
@@ -142,7 +142,9 @@ export default {
         border-radius: $border-radius;
         box-shadow: $box-shadow-sm;
       }
-
+    }
+    .category-container{
+      overflow-x: hidden;
     }
   }
 </style>

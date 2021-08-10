@@ -1,5 +1,5 @@
 <template>
-  <ModalAdd title="Add a New Task" @handleSubmit="save">
+  <ModalAdd :title="title ? title : 'Add a New Task'" @handleSubmit="save">
     <template v-slot:content>
         <div class="mb-3">
           <label for="name" class="form-label">Task Name</label>
@@ -35,6 +35,7 @@ import ModalAdd from '../../components/ModalAdd.vue'
 
 export default {
   components:{ ModalAdd },
+  props:['title', 'parentCategory'],
   data(){
     return{
       categories:[],
@@ -42,11 +43,24 @@ export default {
       description:'',
       deadline:'',
       category:'',
+      stateCategory:'',
     }
   },
   created(){
     const categories = localStorage.getItem('categories')
     this.categories = JSON.parse(categories)
+    if(this.parentCategory){
+      this.stateCategory = 'parentCategory'
+      const findCategory = this.categories.find((c)=>c.name===this.parentCategory)
+      this.category = findCategory.id
+    }
+  },
+  updated(){
+    if(this.parentCategory && this.parentCategory !== this.stateCategory){
+      const findCategory = this.categories.find((c)=>c.name===this.parentCategory)
+      this.category = findCategory.id
+      this.stateCategory = 'parentCategory'
+    }
   },
   methods:{
     save(){

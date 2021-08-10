@@ -4,7 +4,7 @@
       <h5>{{title}}</h5>
        <div class="card card-body border-0 rounded-3">
       
-        <div v-for="task in this.filterIsCompleted()" :key="task.id" class="each-task d-flex flex-row align-items-center card card-body border-0 shadow mb-3 rounded-3">
+        <div v-for="task in filterIsCompleted()" :key="task.id" class="each-task d-flex flex-row align-items-center card card-body border-0 shadow mb-3 rounded-3">
           <div class="confirm-icon fs-2 me-3" @click="updateTask(task)">
             <i v-if="!task.isCompleted" class="bi bi-square"></i>
             <i v-if="task.isCompleted" class="bi bi-check2-square"></i>
@@ -47,12 +47,32 @@ export default {
         if(t1.deadline < t2.deadline) return -1
       })
       return sortedTask
-    }
+    },
+    updateTask(task){
+      const foundTask = this.tasks.find((t)=>t.id===task.id)
+      if(!foundTask.isCompleted) {
+        foundTask.isCompleted = true
+      }else{
+        foundTask.isCompleted = false
+      }
+
+      const allTasks = JSON.parse(localStorage.getItem('tasks'))
+
+      const removeTask = allTasks.filter((t)=>t.id!==task.id)
+      removeTask.push(foundTask)
+      localStorage.setItem('tasks', JSON.stringify(removeTask))
+    },
   }
 
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+@import '@/assets/scss/_variables.scss';
+.confirm-icon, .task-more i{
+  color: $primary-opacity;
+  &:hover{
+    color: $primary;
+  }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-center">
     <h3 class="text-capitalize">{{category}} Tasks</h3>
-    <button class="btn btn-outline-primary ms-auto">
+    <button class="btn btn-outline-primary ms-auto" data-bs-toggle="modal" data-bs-target="#addNew">
        <i class="bi bi-plus-square me-2"></i>
         <span>Add a Task</span>
     </button>
@@ -11,14 +11,17 @@
     <TaskList title="Ongoing Task" :tasks="tasks" :isCompleted="false"/>
     <TaskList title="Completed Task" :tasks="tasks" :isCompleted="true"/>
   </div>
+
+  <AddTask @refresh="getTasks" :title="`Add a new ${category} Task`" :parentCategory="category"/>
 </template>
 
 <script>
 import TaskList from './TaskList.vue'
+import AddTask from '../home/AddTask.vue'
 
 export default {
   props:['category'],
-  components:{ TaskList },
+  components:{ TaskList, AddTask },
   data(){
     return{
       tasks:[],
@@ -26,7 +29,6 @@ export default {
     }
   },
   updated(){
-    console.log('ada changes', this.tasks)
     if(this.category !== this.stateCategory){
       this.stateCategory = this.category
       this.getTasks()
