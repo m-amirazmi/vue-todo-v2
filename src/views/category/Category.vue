@@ -6,11 +6,45 @@
         <span>Add a Task</span>
     </button>
   </div>
+
+  <div class="row mt-5">
+    <TaskList title="Ongoing Task" :tasks="tasks" :isCompleted="false"/>
+    <TaskList title="Completed Task" :tasks="tasks" :isCompleted="true"/>
+  </div>
 </template>
 
 <script>
+import TaskList from './TaskList.vue'
+
 export default {
-  props:['category']
+  props:['category'],
+  components:{ TaskList },
+  data(){
+    return{
+      tasks:[],
+      stateCategory: ''
+    }
+  },
+  updated(){
+    console.log('ada changes', this.tasks)
+    if(this.category !== this.stateCategory){
+      this.stateCategory = this.category
+      this.getTasks()
+    }
+  },
+  created(){
+    this.stateCategory = this.category
+    this.getTasks()
+  },
+  methods:{
+    async getTasks(){
+      const tasks = await JSON.parse(localStorage.getItem('tasks'))
+      const categories = await JSON.parse(localStorage.getItem('categories'))
+      const getCategory = categories.find((c)=>c.name===this.category)
+      const filteredCategory = tasks.filter((t)=>t.category===getCategory.id)
+      this.tasks = filteredCategory
+    }
+  }
 }
 </script>
 
