@@ -5,23 +5,29 @@
       <router-link :to="{path:path}" class="btn btn-outline-primary ms-auto">More</router-link>
     </div>
   
-    <div v-for="task in tasks" :key="task.id" class="each-task d-flex flex-row align-items-center card card-body border-0 shadow mb-3 rounded-3">
-      <div class="confirm-icon fs-2 me-3" @click="updateTask(task)">
-        <i v-if="!task.isCompleted" class="bi bi-square"></i>
-        <i v-if="task.isCompleted" class="bi bi-check2-square"></i>
+    <div v-for="task in tasks" :key="task.id" >
+      <div v-if="tasks.length!==0" class="each-task d-flex flex-row align-items-center card card-body border-0 shadow mb-3 rounded-3">
+        <div class="confirm-icon fs-2 me-3" @click="updateTask(task)">
+          <i v-if="!task.isCompleted" class="bi bi-square"></i>
+          <i v-if="task.isCompleted" class="bi bi-check2-square"></i>
+        </div>
+        <div class="task-info">
+          <p class="task-name mb-0 fs-4">{{task.name}}</p>
+          <small class="mb-0">
+            <span>Deadline: </span>
+            <span class="me-1 fw-bold text-primary">{{dateFormat(task.deadline)}}</span>
+            <span class="fw-bold text-primary">| {{timeFormat(task.deadline)}}</span>
+          </small>
+        </div>
+        
+        <div class="task-more ms-auto fs-4 text-primary" data-bs-toggle="modal" data-bs-target="#modalDescription" @click="selectTask(task)">
+          <i class="bi bi-eye"></i>
+        </div>
       </div>
-      <div class="task-info">
-        <p class="task-name mb-0 fs-4">{{task.name}}</p>
-        <small class="mb-0">
-          <span>Deadline: </span>
-          <span class="me-1 fw-bold text-primary">{{dateFormat(task.deadline)}}</span>
-          <span class="fw-bold text-primary">| {{timeFormat(task.deadline)}}</span>
-        </small>
-      </div>
-      
-      <div class="task-more ms-auto fs-4 text-primary" data-bs-toggle="modal" data-bs-target="#modalDescription" @click="selectTask(task)">
-        <i class="bi bi-eye"></i>
-      </div>
+    </div>
+    <div v-if="tasks.length==0">
+      <p v-if="isCompleted" class="text-center mb-0">No task here. Please complete atleast ONE task.</p>
+      <p v-if="!isCompleted" class="text-center mb-0">No task here. Click "Add a Task" button above to add a task</p>
     </div>
   </div>
 </template>
