@@ -56,6 +56,7 @@ export default {
         description: this.description,
         deadline: this.deadline,
         category: this.category,
+        isCompleted: false
       }
       if(!existingTasks){
         const tasks = []

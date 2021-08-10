@@ -3,7 +3,7 @@
       <div class="task">
         <h5>{{title}}</h5>
         <div class="mb-4" v-for="category in categories" :key="category.id">
-          <TaskCard :title="category.name" :path="category.name" :category="category" :parentTasks="parentTasks"/>
+          <TaskCard :title="category.name" :path="category.name" :category="category" :parentTasks="parentTasks" :isCompleted="isCompleted" @updated="updated" @selected="getSelectedTask"/>
         </div>
       </div>
     </div>
@@ -14,15 +14,23 @@ import TaskCard from './TaskCard.vue'
 
 export default {
   components:{ TaskCard },
-  props:['title', 'parentTasks'],
+  props:['title', 'parentTasks', 'isCompleted'],
   data(){
     return{
-      categories: []
+      categories: [],
     }
   },
   created(){
     const categories = localStorage.getItem('categories')
     this.categories = JSON.parse(categories)
+  },
+  methods:{
+    updated(){
+      this.$emit('updated')
+    },
+    getSelectedTask(task){
+      this.$emit('getSelectedTask', task)
+    }
   }
 }
 </script>
