@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid ps-0 row">
-    <aside class="col-md-2">
+    <aside class="d-hide col-md-2">
       <div class="sidebar">
         <div class="links">
             <router-link :class="{active: $route.name === 'home'}" :to="{name:'home'}">
@@ -28,9 +28,6 @@
       </div>
     </main>
   </div>
-
-  <!-- <div id="nav">
-  </div> -->
 </template>
 
 <script>
@@ -44,8 +41,9 @@ export default {
       ]
     }
   },
-  updated(){
-    console.log(this.$route)
+  created(){
+    const categories = JSON.stringify(this.categories)
+    localStorage.setItem('categories', categories)
   }
 }
 </script>
