@@ -8,12 +8,17 @@
   </div>
 </template>
 
-<script>
-export default {
-  
+<style lang="scss" scoped>
+@media (max-width: 576px) {
+  .d-flex{
+    flex-direction: column;
+  }
+  .ms-auto{
+    margin-left: 0 !important;
+    margin-top: 12px;
+  }
+  p{
+    text-align: center;
+  }
 }
-</script>
-
-<style>
-
 </style>

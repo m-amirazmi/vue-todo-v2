@@ -6,6 +6,7 @@
   </div>
 
   <AddTask @refresh="getTasks"/>
+  
   <ModalDescription :task="selectedTask" @updated="getTasks">
     <template v-slot:content>
       <div>

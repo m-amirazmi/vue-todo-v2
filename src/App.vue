@@ -1,6 +1,6 @@
 <template>
-  <div class="container-fluid ps-0 row">
-    <aside class="d-hide col-md-2">
+  <div class="container-fluid row">
+    <aside class="sidebar-container col-md-2">
       <div class="sidebar">
         <div class="links">
             <router-link :class="{active: $route.name === 'home'}" :to="{name:'home'}">
@@ -20,13 +20,29 @@
         </div>
       </div>
     </aside>
+
     <main class="col-md-10">
-      <div class="container">
-        <div class="content">
+      <div class="content">
+        <div class="links-mobile">
+            <router-link class="text-decoration-none text-uppercase" :class="{active: $route.name === 'home'}" :to="{name:'home'}">
+              <div class="link">
+                  <span>Home</span>
+              </div>
+            </router-link>
+          <div v-for="category in categories" :key="category.id">
+            <router-link class="text-decoration-none text-uppercase" :to="{name:'category', params: {category:category.name}}">
+              <div class="link d-flex align-items-center" :class="{active: $route.params.category === category.name}">
+                <span>{{category.name}}</span>
+              </div>
+            </router-link>
+          </div>
+        </div>
+      <div class="">
           <router-view/>
         </div>
       </div>
     </main>
+
   </div>
 </template>
 
@@ -52,6 +68,9 @@ export default {
   @import '@/assets/scss/_variables.scss';
   body{
     background: $gray !important;
+  }
+  .links-mobile{
+    display: none;
   }
   .sidebar{
     position: sticky;
@@ -92,5 +111,38 @@ export default {
   }
   .content{
     padding: 48px 100px;
+  }
+
+  @media (max-width: 576px) {
+    .sidebar-container{
+      display: none;
+    }
+    .content{
+      padding: 10px;
+    }
+    .container-fluid.row{
+      --bs-gutter-x:none;
+    }
+    .links-mobile{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1rem;
+      margin-bottom: 12px;
+      .link{
+        padding: 8px;
+        margin: 4px;
+
+      }
+      .active {
+        background: $primary;
+        span{
+          color: white;
+        }
+        border-radius: $border-radius;
+        box-shadow: $box-shadow-sm;
+      }
+
+    }
   }
 </style>
