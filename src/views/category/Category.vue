@@ -8,24 +8,42 @@
   </div>
 
   <div class="row mt-5">
-    <TaskList title="Ongoing Task" :tasks="tasks" :isCompleted="false"/>
-    <TaskList title="Completed Task" :tasks="tasks" :isCompleted="true"/>
+    <TaskList title="Ongoing Task" :tasks="tasks" :isCompleted="false" @selected="getSelectedTask"/>
+    <TaskList title="Completed Task" :tasks="tasks" :isCompleted="true" @selected="getSelectedTask"/>
   </div>
 
   <AddTask @refresh="getTasks" :title="`Add a new ${category} Task`" :parentCategory="category"/>
+
+  <ModalDescription :task="selectedTask" @updated="getTasks">
+    <template v-slot:content>
+      <div>
+        <p class="badge fs-5" :class="{'bg-primary':selectedTask.isCompleted, 'bg-secondary':!selectedTask.isCompleted}" >
+          {{selectedTask.isCompleted ? 'Completed' : 'Not Complete'}}
+        </p>
+      </div>
+      <div>
+        <span>Description:</span>
+        <p class="py-3 bg-light px-3 rounded-3 mt-2 border border-primary">{{selectedTask.description}}</p>
+        <p>Deadline: {{dateFormat(selectedTask.deadline)}} | {{timeFormat(selectedTask.deadline)}}</p>
+      </div>
+    </template>
+  </ModalDescription>
+
 </template>
 
 <script>
 import TaskList from './TaskList.vue'
 import AddTask from '../home/AddTask.vue'
+import ModalDescription from '../../components/ModalDescription.vue'
 
 export default {
   props:['category'],
-  components:{ TaskList, AddTask },
+  components:{ TaskList, AddTask, ModalDescription },
   data(){
     return{
       tasks:[],
-      stateCategory: ''
+      stateCategory: '',
+      selectedTask:{}
     }
   },
   updated(){
@@ -45,7 +63,19 @@ export default {
       const getCategory = categories.find((c)=>c.name===this.category)
       const filteredCategory = tasks.filter((t)=>t.category===getCategory.id)
       this.tasks = filteredCategory
-    }
+    },
+    getSelectedTask(task){
+      this.selectedTask = task
+    },
+    dateFormat(date){
+      const today = new Date().toLocaleDateString()
+      if(new Date(date).toLocaleDateString() === today) return 'Today'
+
+      return new Date(date).toLocaleDateString('en-MY', {  year: 'numeric', month: 'long', day: 'numeric' })
+    },
+    timeFormat(date){
+      return new Date(date).toLocaleTimeString('en-MY')
+    },
   }
 }
 </script>

@@ -62,6 +62,9 @@ export default {
       removeTask.push(foundTask)
       localStorage.setItem('tasks', JSON.stringify(removeTask))
     },
+    selectTask(task){
+      this.$emit('selected', task)
+    }
   }
 
 }
