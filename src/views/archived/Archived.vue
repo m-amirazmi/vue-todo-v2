@@ -56,7 +56,11 @@ export default {
     },
     getArchivedTasks(){
       const archivedTasks = JSON.parse(localStorage.getItem('archived'))
-      this.archivedTasks = archivedTasks
+      const sortedTasks = archivedTasks.sort((t1,t2)=>{
+         if(t1.timestampArchived < t2.timestampArchived) return 1
+         if(t1.timestampArchived > t2.timestampArchived) return -1
+        })
+      this.archivedTasks = sortedTasks
     },
     getCategories(){
       const categories = JSON.parse(localStorage.getItem('categories'))
