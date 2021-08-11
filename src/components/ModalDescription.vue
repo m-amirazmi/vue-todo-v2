@@ -41,7 +41,7 @@ export default {
         newArchivedTasks.push(archivedTask)
       }
 
-      this.$router.push({name:'archived'})
+      this.$router.push('/archived')
 
       localStorage.setItem('archived', JSON.stringify(newArchivedTasks))
       localStorage.setItem('tasks', JSON.stringify(removeTask))
