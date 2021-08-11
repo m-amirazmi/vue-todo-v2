@@ -3,12 +3,12 @@
     <aside class="sidebar-container col-md-2">
       <div class="sidebar">
         <div class="links">
-            <router-link :class="{active: $route.name === 'home'}" :to="{name:'home'}">
-              <div class="link">
-                  <i class="bi bi-columns-gap"></i>
-                  <span>Home</span>
-              </div>
-            </router-link>
+          <router-link :class="{active: $route.name === 'home'}" :to="{name:'home'}">
+            <div class="link">
+                <i class="bi bi-columns-gap"></i>
+                <span>Home</span>
+            </div>
+          </router-link>
           <div v-for="category in categories" :key="category.id">
             <router-link :to="{name:'category', params: {category:category.name}}">
               <div class="link d-flex align-items-center" :class="{active: $route.params.category === category.name}">
@@ -17,6 +17,12 @@
               </div>
             </router-link>
           </div>
+          <router-link :class="{active: $route.name === 'archived'}" :to="{name:'archived'}">
+            <div class="link">
+                <i class="bi bi-archive"></i>
+                <span>Archived</span>
+            </div>
+          </router-link>
         </div>
       </div>
     </aside>
@@ -24,11 +30,11 @@
     <main class="col-md-10">
       <div class="content">
         <div class="links-mobile">
-            <router-link class="text-decoration-none text-uppercase" :class="{active: $route.name === 'home'}" :to="{name:'home'}">
-              <div class="link">
-                  <span>Home</span>
-              </div>
-            </router-link>
+          <router-link class="text-decoration-none text-uppercase" :class="{active: $route.name === 'home'}" :to="{name:'home'}">
+            <div class="link">
+                <span>Home</span>
+            </div>
+          </router-link>
           <div v-for="category in categories" :key="category.id">
             <router-link class="text-decoration-none text-uppercase" :to="{name:'category', params: {category:category.name}}">
               <div class="link d-flex align-items-center" :class="{active: $route.params.category === category.name}">
@@ -36,8 +42,13 @@
               </div>
             </router-link>
           </div>
+          <router-link class="text-decoration-none text-uppercase" :class="{active: $route.name === 'archived'}" :to="{name:'archived'}">
+            <div class="link">
+                <i class="bi bi-archive text-danger"></i>
+            </div>
+          </router-link>
         </div>
-      <div class="category-container">
+        <div class="category-container">
           <router-view/>
         </div>
       </div>
@@ -138,6 +149,9 @@ export default {
         background: $primary;
         span{
           color: white;
+        }
+        .text-danger{
+          color: white !important;
         }
         border-radius: $border-radius;
         box-shadow: $box-shadow-sm;

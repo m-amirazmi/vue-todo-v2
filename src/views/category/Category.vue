@@ -14,7 +14,7 @@
 
   <AddTask @refresh="getTasks" :title="`Add a new ${category} Task`" :parentCategory="category"/>
 
-  <ModalDescription :task="selectedTask" @updated="getTasks">
+  <ModalDescription :task="selectedTask" :update="true" @updated="getTasks">
     <template v-slot:content>
       <div>
         <p class="badge fs-5" :class="{'bg-primary':selectedTask.isCompleted, 'bg-secondary':!selectedTask.isCompleted}" >

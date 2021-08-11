@@ -1,5 +1,5 @@
 <template>
-  <Banner/>
+  <Banner text="You got something new need to be done? Let's add a new task now." :showAddBtn="true" color="primary"/>
   <div class="todos row mt-5">
     <TaskList v-if="load===2" title="Ongoing Tasks" :parentTasks="tasks" :isCompleted="false" @updated="getTasks" @getSelectedTask="getSelectedTask"/>
     <TaskList v-if="load===2" title="Completed Tasks" :parentTasks="tasks" :isCompleted="true" @updated="getTasks" @getSelectedTask="getSelectedTask"/>
@@ -7,7 +7,7 @@
 
   <AddTask @refresh="getTasks"/>
   
-  <ModalDescription :task="selectedTask" @updated="getTasks">
+  <ModalDescription :task="selectedTask" :update="true" @updated="getTasks">
     <template v-slot:content>
       <div>
         <p class="badge fs-5" :class="{'bg-primary':selectedTask.isCompleted, 'bg-secondary':!selectedTask.isCompleted}" >

@@ -10,7 +10,7 @@
         <div class="modal-body">
           <slot name="content"></slot>
         </div>
-        <div class="modal-footer">
+        <div v-if="update" class="modal-footer">
           <button type="button" class="btn btn-danger text-white" @click="handleSubmit" data-bs-dismiss="modal">Remove</button>
         </div>
       </div>
@@ -20,11 +20,27 @@
 
 <script>
 export default {
-  props:['task'],
+  props:['task', 'update'],
   methods:{
     handleSubmit(){
       const getTasks = JSON.parse(localStorage.getItem('tasks'))
+      const getArchivedTasks = JSON.parse(localStorage.getItem('archived'))
       const removeTask = getTasks.filter((t)=>t.id!==this.task.id)
+
+      const archivedTask = {...this.task}
+      archivedTask.isArchived = true
+      archivedTask.timestampArchived = Date.now()
+
+      let newArchivedTasks
+      if(!getArchivedTasks){
+        newArchivedTasks = []
+        newArchivedTasks.push(archivedTask)
+      }else{
+        newArchivedTasks = [...getArchivedTasks]
+        newArchivedTasks.push(archivedTask)
+      }
+
+      localStorage.setItem('archived', JSON.stringify(newArchivedTasks))
       localStorage.setItem('tasks', JSON.stringify(removeTask))
       this.$emit('updated')
     }
